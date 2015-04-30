@@ -1,5 +1,3 @@
 ## double-rainbow ##
 
-===
-
 playground
