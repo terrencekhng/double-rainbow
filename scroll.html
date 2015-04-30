@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>scroll to bottom, auto post</title>
+
+  <style type="text/css">
+    body, p, div {
+      margin: 0;
+    }
+
+    body {
+      font-family: Helvetica;
+    }
+
+    .post {
+      background-color: #eeeeee;
+      border-radius: 3px;
+      margin: 10px;
+      height: 500px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 25em;
+      color: #8c8c8c;
+    }
+
+    #bottom {
+      height: 1px;
+      background-color: #eee;
+    }
+
+    #loading {
+      text-align: center;
+      font-size: 22px;
+      padding: 30px;
+      color: #8c8c8c;
+    }
+  </style>
+
+</head>
+<body onscroll="checkBottom(2)">
+
+<div class="post">
+  1
+</div>
+
+<div class="post">
+  2
+</div>
+<div id="loading">
+  Loading ...
+</div>
+
+<div id="bottom">
+
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+  var postCount = 2;
+
+  var bottom = document.getElementById('bottom');
+  var clientHeight = document.documentElement.clientHeight;
+
+  //alert(bottom.getBoundingClientRect().top + bottom.clientHeight);
+  //alert(document.documentElement.clientHeight);
+
+
+  function checkBottom(count) {
+    if (bottom.getBoundingClientRect().top + bottom.clientHeight === clientHeight) {
+
+      showLoading(function() {
+
+        var loading = document.getElementById('loading');
+        document.body.removeChild(loading);
+
+        var i;
+        for (i = 0; i < count; ++i) {
+          var post = document.createElement('div');
+          post.classList.add('post');
+          document.body.insertBefore(post, bottom);
+          post.innerHTML = ++postCount;
+        }
+
+        loading = document.createElement('div');
+        loading.classList.add('loading');
+        loading.id = 'loading';
+        loading.innerHTML = 'Loading ...';
+        document.body.insertBefore(loading, bottom);
+
+      });
+
+    }
+  }
+
+  function showLoading(callback) {
+
+    setTimeout(function() {
+
+      callback();
+
+    }, 2000);
+
+  }
+
+</script>
+
+</html>
